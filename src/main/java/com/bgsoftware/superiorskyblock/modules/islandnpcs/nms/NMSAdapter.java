@@ -1,10 +1,10 @@
 package com.bgsoftware.superiorskyblock.modules.islandnpcs.nms;
 
 import com.bgsoftware.superiorskyblock.modules.islandnpcs.npc.IslandNPC;
-import org.bukkit.World;
+import org.bukkit.Location;
 
 public interface NMSAdapter {
 
-    IslandNPC createNPCEntity(World bukkitWorld);
+    IslandNPC createNPCEntity(Location location);
 
 }

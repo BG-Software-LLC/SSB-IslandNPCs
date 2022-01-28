@@ -2,6 +2,7 @@ package com.bgsoftware.superiorskyblock.modules.islandnpcs.npc;
 
 import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.bgsoftware.superiorskyblock.modules.islandnpcs.SSBIslandNPCs;
+import org.bukkit.Location;
 import org.bukkit.World;
 
 import java.util.HashMap;
@@ -23,8 +24,8 @@ public final class NPCHandler {
         return Optional.ofNullable(this.cachedNPCs.get(island.getUniqueId()));
     }
 
-    public IslandNPC createNPC(Island island, World world) {
-        IslandNPC islandNPC = module.getNMSAdapter().createNPCEntity(world);
+    public IslandNPC createNPC(Island island, Location location) {
+        IslandNPC islandNPC = module.getNMSAdapter().createNPCEntity(location);
         this.cachedNPCs.put(island.getUniqueId(), islandNPC);
         return islandNPC;
     }
