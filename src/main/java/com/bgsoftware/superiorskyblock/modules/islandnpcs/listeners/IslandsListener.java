@@ -3,7 +3,6 @@ package com.bgsoftware.superiorskyblock.modules.islandnpcs.listeners;
 import com.bgsoftware.superiorskyblock.api.events.IslandEnterProtectedEvent;
 import com.bgsoftware.superiorskyblock.api.events.IslandSchematicPasteEvent;
 import com.bgsoftware.superiorskyblock.modules.islandnpcs.SSBIslandNPCs;
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.npc.IslandNPC;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
@@ -29,8 +28,7 @@ public final class IslandsListener implements Listener {
 
         module.getNPCHandler().removeNPC(event.getIsland());
 
-        IslandNPC islandNPC = module.getNPCHandler().createNPC(event.getIsland(), schematicWorld);
-        islandNPC.setLocation(event.getLocation().clone().add(0.5, 1, 0.5));
+        module.getNPCHandler().createNPC(event.getIsland(), event.getLocation().clone().add(0.5, 1, 0.5));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
