@@ -3,12 +3,14 @@ package com.bgsoftware.superiorskyblock.modules.islandnpcs;
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblock;
 import com.bgsoftware.superiorskyblock.api.commands.SuperiorCommand;
 import com.bgsoftware.superiorskyblock.api.modules.PluginModule;
+import com.bgsoftware.superiorskyblock.modules.islandnpcs.npc.NPCHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SSBIslandNPCs extends PluginModule {
 
     private JavaPlugin plugin;
+    private final NPCHandler npcHandler = new NPCHandler();
 
     public SSBIslandNPCs() {
         super("IslandNPCs", "Ome_R");
@@ -44,7 +46,12 @@ public final class SSBIslandNPCs extends PluginModule {
         return null;
     }
 
+    public NPCHandler getNPCHandler() {
+        return npcHandler;
+    }
+
     public JavaPlugin getJavaPlugin() {
         return plugin;
     }
+
 }
