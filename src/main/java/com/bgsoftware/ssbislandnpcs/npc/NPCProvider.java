@@ -1,11 +1,14 @@
 package com.bgsoftware.ssbislandnpcs.npc;
 
+import com.bgsoftware.ssbislandnpcs.config.NPCMetadata;
 import com.bgsoftware.superiorskyblock.api.island.Island;
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
 
 public interface NPCProvider {
 
-    IslandNPC createNPC(Location location, Island island, EntityType entityType, String name);
+    IslandNPC createNPC(Island island, NPCMetadata metadata);
+
+    void loadNPCs();
+
+    void unloadNPCs();
 
 }

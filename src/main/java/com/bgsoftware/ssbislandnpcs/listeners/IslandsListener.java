@@ -1,14 +1,20 @@
 package com.bgsoftware.ssbislandnpcs.listeners;
 
 import com.bgsoftware.ssbislandnpcs.SSBIslandNPCs;
+import com.bgsoftware.ssbislandnpcs.config.NPCMetadata;
+import com.bgsoftware.ssbislandnpcs.npc.IslandNPC;
 import com.bgsoftware.superiorskyblock.api.events.IslandDisbandEvent;
 import com.bgsoftware.superiorskyblock.api.events.IslandEnterProtectedEvent;
 import com.bgsoftware.superiorskyblock.api.events.IslandSchematicPasteEvent;
+import com.bgsoftware.superiorskyblock.api.island.Island;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.world.ChunkLoadEvent;
+
+import java.util.Locale;
 
 public final class IslandsListener implements Listener {
 
@@ -27,9 +33,14 @@ public final class IslandsListener implements Listener {
         if (module.getPlugin().getSettings().getWorlds().getDefaultWorld() != schematicWorld.getEnvironment())
             return;
 
+        NPCMetadata npcMetadata = module.getSettings().schematics.get(event.getSchematic().toLowerCase(Locale.ENGLISH));
+
+        if (npcMetadata == null)
+            return;
+
         module.getNPCHandler().removeNPC(event.getIsland());
 
-        module.getNPCHandler().createNPC(event.getIsland(), event.getLocation().clone().add(0.5, 1, 0.5));
+        module.getNPCHandler().createNPC(event.getIsland(), npcMetadata);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -49,6 +60,26 @@ public final class IslandsListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onIslandDisband(IslandDisbandEvent event) {
         module.getNPCHandler().removeNPC(event.getIsland());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onIslandChunkLoad(ChunkLoadEvent event) {
+        Island island = module.getPlugin().getGrid().getIslandAt(event.getChunk());
+
+        if (island == null)
+            return;
+
+        IslandNPC existingNPC = module.getNPCHandler().getNPC(island).orElse(null);
+
+        if (existingNPC != null)
+            return;
+
+        NPCMetadata npcMetadata = module.getSettings().schematics.get(island.getSchematicName().toLowerCase(Locale.ENGLISH));
+
+        if (npcMetadata == null)
+            return;
+
+        module.getNPCHandler().createNPC(island, npcMetadata);
     }
 
 }

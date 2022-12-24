@@ -1,7 +1,7 @@
 package com.bgsoftware.ssbislandnpcs;
 
+import com.bgsoftware.ssbislandnpcs.config.SettingsManager;
 import com.bgsoftware.ssbislandnpcs.listeners.IslandsListener;
-import com.bgsoftware.ssbislandnpcs.npc.IslandNPC;
 import com.bgsoftware.ssbislandnpcs.npc.NPCHandler;
 import com.bgsoftware.ssbislandnpcs.npc.NPCProvider;
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblock;
@@ -19,6 +19,8 @@ public final class SSBIslandNPCs extends PluginModule {
     private SuperiorSkyblock plugin;
     private final NPCHandler npcHandler = new NPCHandler(this);
 
+    private SettingsManager settingsManager;
+
     private NPCProvider npcProvider;
 
     public SSBIslandNPCs() {
@@ -33,17 +35,23 @@ public final class SSBIslandNPCs extends PluginModule {
 
         if (this.npcProvider == null)
             throw new IllegalStateException("Cannot find a suitable NPC provider.");
+
+        this.settingsManager = new SettingsManager(this);
+
+        this.npcProvider.loadNPCs();
     }
 
     @Override
     public void onReload(SuperiorSkyblock plugin) {
-
+        this.settingsManager = new SettingsManager(this);
+        this.npcProvider.unloadNPCs();
+        this.npcProvider.loadNPCs();
     }
 
     @Override
     public void onDisable(SuperiorSkyblock plugin) {
         // We want to despawn all npcs.
-        this.npcHandler.getNPCs().forEach(IslandNPC::despawn);
+        this.npcProvider.unloadNPCs();
     }
 
     @Override
@@ -68,6 +76,10 @@ public final class SSBIslandNPCs extends PluginModule {
 
     public NPCHandler getNPCHandler() {
         return npcHandler;
+    }
+
+    public SettingsManager getSettings() {
+        return settingsManager;
     }
 
     public NPCProvider getNPCProvider() {

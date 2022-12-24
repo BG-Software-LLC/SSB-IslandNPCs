@@ -1,0 +1,28 @@
+######################################################
+##                                                  ##
+##                 SSB - IslandNPCs                 ##
+##                Developed by Ome_R                ##
+##                                                  ##
+######################################################
+
+# List of schematics that NPCs will be spawned in.
+schematics:
+  normal:
+    # An offset from the island center to spawn npcs in.
+    # The format of the offset is `<x-offset>, <y-offset>, <z-offset>`
+    spawn-offset: 0, 0, 0
+    # The type of the NPC.
+    type: PLAYER
+    # The name of the NPC.
+    # Unlike the display name, this name is for internal usage.
+    name: '%owner%'
+    # The display name of the npc.
+    # If empty, no custom display name will be shown above the NPC.
+    display-name: ''
+    # Whether the NPC should look at nearby players.
+    look-at-nearby: false
+    # Action to be performed when clicking on the entity
+    on-click:
+      action: 'command'
+      commands:
+        - 'is admin msg %player% &aWelcome to your island!'

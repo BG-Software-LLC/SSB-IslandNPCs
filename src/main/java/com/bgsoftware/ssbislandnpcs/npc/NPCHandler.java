@@ -1,9 +1,8 @@
 package com.bgsoftware.ssbislandnpcs.npc;
 
 import com.bgsoftware.ssbislandnpcs.SSBIslandNPCs;
+import com.bgsoftware.ssbislandnpcs.config.NPCMetadata;
 import com.bgsoftware.superiorskyblock.api.island.Island;
-import org.bukkit.Location;
-import org.bukkit.entity.EntityType;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,8 +27,8 @@ public final class NPCHandler {
         return Optional.ofNullable(this.npcsByUUID.get(island.getUniqueId()));
     }
 
-    public IslandNPC createNPC(Island island, Location location) {
-        IslandNPC islandNPC = module.getNPCProvider().createNPC(location, island, EntityType.PLAYER, "OmerBenGera");
+    public IslandNPC createNPC(Island island, NPCMetadata metadata) {
+        IslandNPC islandNPC = module.getNPCProvider().createNPC(island, metadata);
         loadNPC(island, islandNPC);
         return islandNPC;
     }
