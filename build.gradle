@@ -50,12 +50,12 @@ subprojects {
 dependencies {
     implementation fileTree("archive")
 
-    implementation 'com.bgsoftware.common.config:CommentedConfiguration:1.0.3'
-    implementation 'com.bgsoftware.common.reflection:ReflectionUtils:latest'
+    compileOnly 'com.bgsoftware.common.config:CommentedConfiguration:1.0.3'
+    compileOnly 'com.bgsoftware.common.reflection:ReflectionUtils:latest'
 
     // Spigot jars
     compileOnly "org.spigotmc:v1_8_R3-Taco:latest"
-    compileOnly "com.bgsoftware:SuperiorSkyblockAPI:1.8.4"
+    compileOnly "com.bgsoftware:SuperiorSkyblockAPI:2022.9"
 }
 
 jar {
