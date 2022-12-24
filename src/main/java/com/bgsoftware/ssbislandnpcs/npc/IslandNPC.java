@@ -11,4 +11,10 @@ public interface IslandNPC {
 
     void setLocation(Location location);
 
+    Location getLocation();
+
+    void remove();
+
+    void despawn();
+
 }

@@ -1,33 +1,38 @@
 package com.bgsoftware.ssbislandnpcs;
 
+import com.bgsoftware.ssbislandnpcs.listeners.IslandsListener;
+import com.bgsoftware.ssbislandnpcs.npc.IslandNPC;
+import com.bgsoftware.ssbislandnpcs.npc.NPCHandler;
+import com.bgsoftware.ssbislandnpcs.npc.NPCProvider;
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblock;
 import com.bgsoftware.superiorskyblock.api.commands.SuperiorCommand;
 import com.bgsoftware.superiorskyblock.api.modules.ModuleLoadTime;
 import com.bgsoftware.superiorskyblock.api.modules.PluginModule;
-import com.bgsoftware.ssbislandnpcs.listeners.IslandsListener;
-import com.bgsoftware.ssbislandnpcs.nms.NMSAdapter;
-import com.bgsoftware.ssbislandnpcs.npc.NPCHandler;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Constructor;
 
 public final class SSBIslandNPCs extends PluginModule {
 
     private SuperiorSkyblock plugin;
     private final NPCHandler npcHandler = new NPCHandler(this);
-    private final NMSAdapter nmsAdapter = loadNMSAdapter();
+
+    private NPCProvider npcProvider;
 
     public SSBIslandNPCs() {
         super("IslandNPCs", "Ome_R");
-        if (nmsAdapter == null)
-            throw new RuntimeException("Couldn't load NMS for this version.");
     }
 
     @Override
     public void onEnable(SuperiorSkyblock plugin) {
         this.plugin = plugin;
-        loadNPCs();
+
+        this.npcProvider = loadNMSProvider();
+
+        if (this.npcProvider == null)
+            throw new IllegalStateException("Cannot find a suitable NPC provider.");
     }
 
     @Override
@@ -37,7 +42,8 @@ public final class SSBIslandNPCs extends PluginModule {
 
     @Override
     public void onDisable(SuperiorSkyblock plugin) {
-
+        // We want to despawn all npcs.
+        this.npcHandler.getNPCs().forEach(IslandNPC::despawn);
     }
 
     @Override
@@ -64,8 +70,8 @@ public final class SSBIslandNPCs extends PluginModule {
         return npcHandler;
     }
 
-    public NMSAdapter getNMSAdapter() {
-        return nmsAdapter;
+    public NPCProvider getNPCProvider() {
+        return npcProvider;
     }
 
     public SuperiorSkyblock getPlugin() {
@@ -76,19 +82,27 @@ public final class SSBIslandNPCs extends PluginModule {
         return (JavaPlugin) plugin;
     }
 
-    private void loadNPCs() {
-        World.Environment defaultWorld = plugin.getSettings().getWorlds().getDefaultWorld();
-        plugin.getGrid().getIslands().forEach(island -> npcHandler.createNPC(island, island.getCenter(defaultWorld)));
+    private NPCProvider loadNMSProvider() {
+        try {
+            if (Bukkit.getPluginManager().isPluginEnabled("Citizens")) {
+                return createNPCProvider("com.bgsoftware.ssbislandnpcs.npc.citizens.CitizensNPCProvider");
+            }
+        } catch (Throwable ignored) {
+        }
+
+        return null;
     }
 
-    private static NMSAdapter loadNMSAdapter() {
+    private NPCProvider createNPCProvider(String clazzName) throws Exception {
+        Class<?> clazz = Class.forName(clazzName);
+
         try {
-            String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            return (NMSAdapter) Class.forName(String.format("com.bgsoftware.superiorskyblock.modules." +
-                    "islandnpcs.nms.%s.NMSAdapterImpl", version)).newInstance();
-        } catch (Throwable error) {
-            return null;
+            Constructor<?> constructor = clazz.getConstructor(SSBIslandNPCs.class);
+            return (NPCProvider) constructor.newInstance(this);
+        } catch (NoSuchMethodException ignored) {
         }
+
+        return (NPCProvider) clazz.newInstance();
     }
 
 }

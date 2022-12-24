@@ -15,24 +15,12 @@ allprojects {
         maven { url 'https://repo.bg-software.com/repository/nms/' }
         maven { url 'https://repo.bg-software.com/repository/api/' }
         maven { url 'https://repo.bg-software.com/repository/common/' }
-        maven { url 'https://repo.bg-software.com/repository/public-libs/' }
-
-        String mavenUsername = System.getenv('mavenUsername') == null ? project.mavenUsername : System.getenv('mavenUsername');
-        String mavenPassword = System.getenv('mavenPassword') == null ? project.mavenUsername : System.getenv('mavenPassword');
-
-        if (mavenUsername != null && mavenPassword != null) {
-            maven {
-                url 'https://repo.bg-software.com/repository/private-libs/'
-                credentials {
-                    username mavenUsername
-                    password mavenPassword
-                }
-            }
-        }
+        maven { url 'https://repo.bg-software.com/repository/dependencies/' }
     }
 
     dependencies {
         compileOnly "com.bgsoftware.common.reflection:ReflectionUtils:latest"
+        compileOnly "com.bgsoftware:SuperiorSkyblockAPI:2022.9"
     }
 
     build {
@@ -55,7 +43,6 @@ dependencies {
 
     // Spigot jars
     compileOnly "org.spigotmc:v1_8_R3-Taco:latest"
-    compileOnly "com.bgsoftware:SuperiorSkyblockAPI:2022.9"
 }
 
 jar {

@@ -1,8 +1,9 @@
 package com.bgsoftware.ssbislandnpcs.listeners;
 
+import com.bgsoftware.ssbislandnpcs.SSBIslandNPCs;
+import com.bgsoftware.superiorskyblock.api.events.IslandDisbandEvent;
 import com.bgsoftware.superiorskyblock.api.events.IslandEnterProtectedEvent;
 import com.bgsoftware.superiorskyblock.api.events.IslandSchematicPasteEvent;
-import com.bgsoftware.ssbislandnpcs.SSBIslandNPCs;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
@@ -43,6 +44,11 @@ public final class IslandsListener implements Listener {
     public void onIslandLeaveProtected(IslandEnterProtectedEvent event) {
         module.getNPCHandler().getNPC(event.getIsland()).ifPresent(islandNPC ->
                 islandNPC.hideFromPlayer(event.getPlayer().asPlayer()));
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onIslandDisband(IslandDisbandEvent event) {
+        module.getNPCHandler().removeNPC(event.getIsland());
     }
 
 }
