@@ -1,4 +1,4 @@
-package com.bgsoftware.superiorskyblock.modules.islandnpcs.npc;
+package com.bgsoftware.ssbislandnpcs.npc;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

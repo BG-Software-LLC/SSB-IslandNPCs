@@ -1,8 +1,8 @@
-package com.bgsoftware.superiorskyblock.modules.islandnpcs.listeners;
+package com.bgsoftware.ssbislandnpcs.listeners;
 
 import com.bgsoftware.superiorskyblock.api.events.IslandEnterProtectedEvent;
 import com.bgsoftware.superiorskyblock.api.events.IslandSchematicPasteEvent;
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.SSBIslandNPCs;
+import com.bgsoftware.ssbislandnpcs.SSBIslandNPCs;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;

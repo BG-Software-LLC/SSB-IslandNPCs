@@ -1,6 +1,6 @@
-package com.bgsoftware.superiorskyblock.modules.islandnpcs.nms.v1_18_R1.npc;
+package com.bgsoftware.ssbislandnpcs.nms.v1_18_R1.npc;
 
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.npc.IslandNPC;
+import com.bgsoftware.ssbislandnpcs.npc.IslandNPC;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.network.protocol.EnumProtocolDirection;
 import net.minecraft.network.protocol.Packet;

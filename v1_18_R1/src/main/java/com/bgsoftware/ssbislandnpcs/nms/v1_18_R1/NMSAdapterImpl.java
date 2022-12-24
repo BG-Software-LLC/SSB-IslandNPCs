@@ -1,8 +1,8 @@
-package com.bgsoftware.superiorskyblock.modules.islandnpcs.nms.v1_18_R1;
+package com.bgsoftware.ssbislandnpcs.nms.v1_18_R1;
 
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.nms.NMSAdapter;
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.nms.v1_18_R1.npc.EntityIslandNPC;
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.npc.IslandNPC;
+import com.bgsoftware.ssbislandnpcs.nms.NMSAdapter;
+import com.bgsoftware.ssbislandnpcs.nms.v1_18_R1.npc.EntityIslandNPC;
+import com.bgsoftware.ssbislandnpcs.npc.IslandNPC;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.WorldServer;

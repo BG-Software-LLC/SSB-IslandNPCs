@@ -1,4 +1,4 @@
-package com.bgsoftware.superiorskyblock.modules.islandnpcs.nms.v1_18_R1.npc;
+package com.bgsoftware.ssbislandnpcs.nms.v1_18_R1.npc;
 
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;

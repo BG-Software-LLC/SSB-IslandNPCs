@@ -1,12 +1,12 @@
-package com.bgsoftware.superiorskyblock.modules.islandnpcs;
+package com.bgsoftware.ssbislandnpcs;
 
 import com.bgsoftware.superiorskyblock.api.SuperiorSkyblock;
 import com.bgsoftware.superiorskyblock.api.commands.SuperiorCommand;
 import com.bgsoftware.superiorskyblock.api.modules.ModuleLoadTime;
 import com.bgsoftware.superiorskyblock.api.modules.PluginModule;
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.listeners.IslandsListener;
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.nms.NMSAdapter;
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.npc.NPCHandler;
+import com.bgsoftware.ssbislandnpcs.listeners.IslandsListener;
+import com.bgsoftware.ssbislandnpcs.nms.NMSAdapter;
+import com.bgsoftware.ssbislandnpcs.npc.NPCHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.Listener;

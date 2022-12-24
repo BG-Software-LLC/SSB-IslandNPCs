@@ -1,9 +1,8 @@
-package com.bgsoftware.superiorskyblock.modules.islandnpcs.npc;
+package com.bgsoftware.ssbislandnpcs.npc;
 
 import com.bgsoftware.superiorskyblock.api.island.Island;
-import com.bgsoftware.superiorskyblock.modules.islandnpcs.SSBIslandNPCs;
+import com.bgsoftware.ssbislandnpcs.SSBIslandNPCs;
 import org.bukkit.Location;
-import org.bukkit.World;
 
 import java.util.HashMap;
 import java.util.Map;
