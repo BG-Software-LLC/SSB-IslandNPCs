@@ -1,6 +1,5 @@
 package com.bgsoftware.ssbislandnpcs.npc.citizens;
 
-import com.bgsoftware.common.reflection.ReflectMethod;
 import com.bgsoftware.ssbislandnpcs.SSBIslandNPCs;
 import com.bgsoftware.ssbislandnpcs.config.NPCMetadata;
 import com.bgsoftware.ssbislandnpcs.config.OnClickAction;
@@ -13,8 +12,8 @@ import net.citizensnpcs.api.event.NPCLeftClickEvent;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import net.citizensnpcs.api.npc.MemoryNPCDataStore;
 import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCDataStore;
 import net.citizensnpcs.api.npc.NPCRegistry;
-import net.citizensnpcs.npc.CitizensNPCRegistry;
 import net.citizensnpcs.trait.HologramTrait;
 import net.citizensnpcs.trait.LookClose;
 import org.bukkit.Bukkit;
@@ -31,7 +30,6 @@ import java.util.regex.Pattern;
 
 public class CitizensNPCProvider implements NPCProvider {
 
-    private static final ReflectMethod<Integer> GENERATE_UNIQUE_ID = new ReflectMethod<>(CitizensNPCRegistry.class, "generateUniqueId");
     private static final Pattern OWNER_PLACEHOLDER_PATTERN = Pattern.compile("%owner%");
     private static final Pattern PLAYER_PLACEHOLDER_PATTERN = Pattern.compile("%player%");
     private static final String NPC_METADATA_KEY = "SSBIslandsNPC_Metadata";
@@ -39,6 +37,7 @@ public class CitizensNPCProvider implements NPCProvider {
     private final SSBIslandNPCs module;
     private boolean canLoadData = false;
 
+    private final NPCDataStore dataStore;
     private final NPCRegistry npcRegistry;
 
     public CitizensNPCProvider(SSBIslandNPCs module) {
@@ -52,7 +51,8 @@ public class CitizensNPCProvider implements NPCProvider {
         }, 5L);
 
         // We want our NPCs to not be saved into disk.
-        this.npcRegistry = CitizensAPI.createNamedNPCRegistry("SSBIslandsNPC", new MemoryNPCDataStore());
+        this.dataStore = new MemoryNPCDataStore();
+        this.npcRegistry = CitizensAPI.createNamedNPCRegistry("SSBIslandsNPC", this.dataStore);
     }
 
 
@@ -63,7 +63,8 @@ public class CitizensNPCProvider implements NPCProvider {
         if (ownerPlaceholderMatcher.find())
             npcName = ownerPlaceholderMatcher.replaceAll(island.getOwner().getName());
 
-        NPC npc = this.npcRegistry.createNPC(metadata.npcType, island.getUniqueId(), GENERATE_UNIQUE_ID.invoke(npcRegistry), npcName);
+        NPC npc = this.npcRegistry.createNPC(metadata.npcType, island.getUniqueId(),
+                this.dataStore.createUniqueNPCId(this.npcRegistry), npcName);
 
         npc.data().set(NPC_METADATA_KEY, metadata);
 
